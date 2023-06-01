@@ -7,7 +7,14 @@
 # Если исключения не произошло, то функция возвращает сумму всех координат
 
 
-# Здесь пишем код
+def segment(coord1, coord2):
+    try:
+        result = coord1[0] + coord1[1] + coord2[0] + coord2[1]
+    except Exception as e:
+        return str(e)[::-1]
+    else:
+        return result
+
 
 # Ниже НИЧЕГО НЕ НАДО ИЗМЕНЯТЬ
 
