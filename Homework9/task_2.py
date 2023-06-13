@@ -1,4 +1,5 @@
-# Напишите декоратор func_log, который может принимать аргумент file_log (Путь до файла), по умолчнию равен 'log.txt'
+# Напишите декоратор func_log, который может принимать аргумент
+# file_log (Путь до файла), по умолчнию равен 'log.txt'
 # Декоратор должен дозаписывать в файл имя вызываемой функции (можно получить по атрибуту __name__), дату и время вызова
 # по формату:
 # имя_функции вызвана %d.%m %H:%M:%S
@@ -26,11 +27,39 @@
 # в func2.txt текст:
 # func2 вызвана 30.05 14:12:47
 
+
 # Со звёздочкой. ДЕЛАТЬ НЕ ОБЯЗАТЕЛЬНО.
 # help(func1) должен выводит одинаковый текст, когда есть декоратор на функции func1 и когда его нет
 # Реализовать без подключения новых модулей и сторонних библиотек.
 
 
-import datetime
+import time
+
 
 # Здесь пишем код
+def func_log(file_log='log.txt'):
+    def logger(func):
+        def wrapper(*args, **kwargs):
+            nonlocal file_log
+            fn_name = func.__name__
+            line = "{} вызвана {}\n".format(fn_name, time.strftime("%d.%m %H:%M:%S"))
+            with open(file_log, "a+", encoding='utf-8') as log_file:
+                log_file.write(line)
+
+        return wrapper
+    return logger
+
+
+@func_log()
+def func1():
+    time.sleep(3)
+
+
+@func_log(file_log='func2.txt')
+def func2():
+    time.sleep(5)
+
+
+func1()
+func2()
+func1()
